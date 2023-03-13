@@ -1,0 +1,142 @@
+.buttons {
+    display: flex;
+}
+
+.todo {
+    background: var(--secondary-background-color);
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 0.5rem;
+    list-style: none;
+    position: relative;
+    border-radius: 0.25rem;
+    min-height: 3.125rem;
+    align-items: center;
+    justify-content: space-between;
+    word-break: break-all;
+}
+
+.todo {
+    display: flex;
+}
+
+.todo::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border: 0.031rem solid var(--blue-color-x9);
+    border-radius: 0.188rem;
+    opacity: 0;
+    transition: opacity 0.2s linear;
+    pointer-events: none;
+}
+
+.todo:hover.todo::before {
+    opacity: .7;
+}
+
+.incomplete {
+    text-align: left;
+    margin-right: 0.625rem;
+    user-select: none;
+}
+
+
+.completed {
+    text-align: left;
+    margin-right: 0.625rem;
+    user-select: none;
+    text-decoration: line-through;
+    color: var(--gray-color-x3);
+    cursor: pointer;
+}
+
+.incomplete {
+    text-decoration: none;
+    color: var(--text-gray-100);
+    cursor: pointer;
+}
+
+.options {
+    width: 1.563rem;
+    height: 1.563rem;
+    position: relative;
+}
+
+.options__button {
+    font-size: 1.125rem;
+    color: var(--text-gray-300);
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transition: background 0.1s ease;
+    border: none;
+    background: none;
+}
+
+.options__button:hover {
+    background: rgba(90, 90, 90, 0.409);
+}
+
+.options__table {
+    position: absolute;
+    border: 1px solid white;
+    width: 8.5rem;
+    right: 0;
+    color: var(--text-gray-300);
+    padding: 0.4rem;
+    border-radius: 0.25rem;
+    background: #161b22;
+    border-color: rgba(120, 120, 120, 0.313);
+}
+
+.buttons__text {
+    font-size: 0.855rem;
+    font-weight: 600;
+}
+
+.buttons {
+    text-align: left;
+    gap: 0.6rem;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 0.18rem;
+    cursor: pointer;
+    transition: background 0.1s ease;
+    user-select: none;
+}
+
+.buttons:hover {
+    background: rgba(90, 90, 90, 0.221);
+}
+
+.button__disabled {
+    background: rgba(90, 90, 90, 0.409);
+    margin-bottom: 0.2rem;
+    pointer-events: none;
+    text-align: left;
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 0.18rem;
+    color: var(--gray-color-x5);
+    user-select: none;
+}
+
+.button__inaccessible {
+    cursor: not-allowed;
+}
+
+hr {
+    border-bottom: 0.1px solid white;
+    border-color: rgba(120, 120, 120, 0.175);
+    margin: 0.3rem 0;
+    padding: 0;
+}
