@@ -131,15 +131,9 @@ export const ProvideTodos: FC<TodosProviderType> = ({
       },
     });
 
-  const [completedTodos, setCompletedTodos] = useState(
-    (): ArrayOfType<ITodo> => {
-      return [];
-    }
-  );
+  const [completedTodos, setCompletedTodos] = useState<ArrayOfType<ITodo>>([]);
 
-  const [error, setError] = useState<StringOrNullType>((): null => {
-    return null
-  });
+  const [error, setError] = useState<StringOrNullType>(null);
 
   const createTodo = (todo: string): void => {
     const action: Action = {
