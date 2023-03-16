@@ -1,24 +1,20 @@
-import { createContext, useReducer, useState, useEffect } from 'react';
-import { nanoid } from 'nanoid';
+import {createContext, FC, ReactNode, useEffect, useReducer, useState} from 'react';
+import {nanoid} from 'nanoid';
 
-import { getLocalStorage, setLocalStorage } from 'utils/services/helpers';
+import {getLocalStorage, setLocalStorage} from 'utils/services/helpers';
 
-import {
-  ArrayOfType,
-  DispatchSetStateActionType,
-  StringOrNullType,
-  TodoInterface,
-} from 'utils/constants/types';
+import {ArrayOfType, DispatchSetStateActionType, ITodo, StringOrNullType,} from 'utils/constants/types';
+
 
 type Context = {
-  state: ArrayOfType<TodoInterface>;
+  state: ArrayOfType<ITodo>;
   actions: Actions;
   states: {
     editMode: {
       editMode: EditModeType;
       setEditMode: DispatchSetStateActionType<EditModeType>;
     };
-    completedTodos: ArrayOfType<TodoInterface>;
+    completedTodos: ArrayOfType<ITodo>;
     errorState: {
       error: StringOrNullType;
       setError: DispatchSetStateActionType<StringOrNullType>;
@@ -27,7 +23,7 @@ type Context = {
 } | null;
 
 type TodosProviderType = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const enum ACTION_TYPES {
@@ -37,7 +33,7 @@ const enum ACTION_TYPES {
   COMPLETE_TODO,
 }
 
-type State = ArrayOfType<TodoInterface>;
+type State = ArrayOfType<ITodo>;
 
 type Action =
   | {
@@ -118,34 +114,31 @@ const reducer = (state: State, { type, payload }: Action) => {
   }
 };
 
-export const ProvideTodos: React.FC<TodosProviderType> = ({
+const init = (): any => {
+  return getLocalStorage('todos') ? getLocalStorage('todos') : initialState;
+}
+export const ProvideTodos: FC<TodosProviderType> = ({
   children,
 }): JSX.Element => {
-  const [state, dispatch] = useReducer(reducer, initialState, (): any => {
-    return getLocalStorage('todos') ? getLocalStorage('todos') : initialState;
-  });
+  const [state, dispatch] = useReducer(reducer, initialState, init);
 
-  const [editMode, setEditMode] = useState((): EditModeType => {
-    const ret = {
+  const [editMode, setEditMode] = useState<EditModeType>(
+     {
       status: false,
       payload: {
         _id: null,
         todo: null,
       },
-    };
-    return ret;
-  });
+    });
 
   const [completedTodos, setCompletedTodos] = useState(
-    (): ArrayOfType<TodoInterface> => {
-      const ret: ArrayOfType<TodoInterface> = [];
-      return ret;
+    (): ArrayOfType<ITodo> => {
+      return [];
     }
   );
 
   const [error, setError] = useState<StringOrNullType>((): null => {
-    const ret = null;
-    return ret;
+    return null
   });
 
   const createTodo = (todo: string): void => {
@@ -167,13 +160,7 @@ export const ProvideTodos: React.FC<TodosProviderType> = ({
 
     dispatch(action);
 
-    setEditMode({
-      status: false,
-      payload: {
-        _id: null,
-        todo: null,
-      },
-    });
+
   };
 
   const updateTodo = (id: string, todo: string): void => {
@@ -186,6 +173,13 @@ export const ProvideTodos: React.FC<TodosProviderType> = ({
     };
 
     dispatch(action);
+    setEditMode({
+      status: false,
+      payload: {
+        _id: null,
+        todo: null,
+      },
+    });
   };
 
   const completeTodo = (id: string): void => {

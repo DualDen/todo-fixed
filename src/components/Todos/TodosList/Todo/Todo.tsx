@@ -5,20 +5,17 @@ import styles from './Todo.module.css';
 
 import { TodosContext } from 'contexts/TodosContext';
 
-import { TodoInterface } from 'utils/constants/types';
+import { ITodo } from 'utils/constants/types';
 import { TodoIcons } from 'utils/constants/icons';
 
 type Props = {
-  todo: TodoInterface;
+  todo: ITodo;
 };
 
-const Todo: React.FC<Props> = ({ todo }): JSX.Element | null => {
+export const Todo: React.FC<Props> = ({ todo }): JSX.Element | null => {
   const { Options } = TodoIcons;
 
-  const [optionsToggle, setOptionsToggle] = useState((): boolean => {
-    const ret = false;
-    return ret;
-  });
+  const [optionsToggle, setOptionsToggle] = useState(false);
 
   const optionsReference = useRef<null | HTMLDivElement>(null);
 
@@ -44,13 +41,9 @@ const Todo: React.FC<Props> = ({ todo }): JSX.Element | null => {
 
   if (!context) return null;
 
-  const {
-    states: {
-      editMode: { setEditMode },
-      errorState: { setError },
-    },
-    actions: { deleteTodo, completeTodo },
-  } = context;
+  const {setEditMode} = context.states.editMode;
+  const {setError} = context.states.errorState;
+  const {deleteTodo, completeTodo} = context.actions
 
   const { Edit, Delete } = TodoIcons;
 
@@ -85,7 +78,7 @@ const Todo: React.FC<Props> = ({ todo }): JSX.Element | null => {
     setOptionsToggle(!optionsToggle);
   };
 
-  const handleEnterAccesibility = (
+  const handleEnterAccessibility = (
     { target, key }: React.KeyboardEvent<HTMLSpanElement>,
     id: string,
     todo?: string
@@ -145,7 +138,7 @@ const Todo: React.FC<Props> = ({ todo }): JSX.Element | null => {
                   handleUpdateToggle(todo._id, todo.todo);
                   setOptionsToggle(false);
                 }}
-                onKeyUp={(e) => handleEnterAccesibility(e, todo._id, todo.todo)}
+                onKeyUp={(e) => handleEnterAccessibility(e, todo._id, todo.todo)}
               >
                 <span>
                   <Edit />
@@ -165,7 +158,7 @@ const Todo: React.FC<Props> = ({ todo }): JSX.Element | null => {
                 handleDeleteTodo(todo._id);
                 setOptionsToggle(false);
               }}
-              onKeyUp={(e) => handleEnterAccesibility(e, todo._id)}
+              onKeyUp={(e) => handleEnterAccessibility(e, todo._id)}
             >
               <span>
                 <Delete />
@@ -179,4 +172,4 @@ const Todo: React.FC<Props> = ({ todo }): JSX.Element | null => {
   );
 };
 
-export default Todo;
+

@@ -7,7 +7,7 @@ type Props = {
   action: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const TodoInput: React.FC<Props> = ({ input, action }): JSX.Element => {
+export const TodoInput: React.FC<Props> = ({ input, action }): JSX.Element => {
   const { Add } = TodoIcons;
 
   return (
@@ -26,4 +26,3 @@ const TodoInput: React.FC<Props> = ({ input, action }): JSX.Element => {
   );
 };
 
-export default TodoInput;

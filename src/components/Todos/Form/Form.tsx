@@ -4,18 +4,31 @@ import styles from './Form.module.css';
 
 import { TodosContext } from 'contexts/TodosContext';
 
-import TodoInput from './TodoInput/TodoInput';
-import Tracker from './Tracker/Tracker';
+import {TodoInput} from './TodoInput/TodoInput';
+import {Tracker} from './Tracker/Tracker';
 
-const Form: React.FC = (): JSX.Element => {
+export const Form: React.FC = (): JSX.Element|null => {
   const context = useContext(TodosContext);
+  const [input, setInput] = useState("");
+  useEffect(() => {
+    if (
+       !error &&
+        status
+    ) {
+      setInput(payload.todo!);
+    }
+  }, [context?.states.editMode, context?.states.errorState.error]);
 
-  console.log(context)
+  useEffect(() => {
+    if (!status) {
+      setInput('');
+    }
+  }, [context?.states.editMode.editMode.status]);
+  if(!context) return null;
+  const {updateTodo,createTodo} = context.actions;
+  const {error,setError} = context.states.errorState;
+  const {status,payload} = context.states.editMode.editMode
 
-  const [input, setInput] = useState((): string => {
-    const ret = '';
-    return ret;
-  });
 
   const handleInputChange = ({
     target,
@@ -25,30 +38,12 @@ const Form: React.FC = (): JSX.Element => {
     setInput(value);
   };
 
-  const handleUpdateTodo = (id: any, todo: string) => {
-    if (!context) return;
-
-    const {
-      actions: { updateTodo },
-    } = context;
+  const handleUpdateTodo = (id: string, todo: string) => {
     updateTodo(id, todo);
   };
 
   const handleFormSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-
-    if (!context) return;
-
-    const {
-      states: {
-        errorState: { setError },
-        editMode: {
-          editMode: { status, payload },
-          setEditMode,
-        },
-      },
-      actions: { createTodo },
-    } = context;
 
     if (!input.trim().length) {
       setError('Enter a task.');
@@ -61,40 +56,19 @@ const Form: React.FC = (): JSX.Element => {
       setError(null);
     } else {
       createTodo(input);
+      setInput("");
 
       setError(null);
     }
-
-    setEditMode({
-      status: false,
-      payload: { _id: null, todo: null },
-    });
-
-    setInput('');
   };
-
-  useEffect(() => {
-    if (
-      !context?.states.errorState.error &&
-      context?.states.editMode.editMode.status
-    ) {
-      setInput(context?.states.editMode.editMode.payload.todo!);
-    }
-  }, [context?.states.editMode, context?.states.errorState.error]);
-
-  useEffect(() => {
-    if (!context?.states.editMode.editMode.status) {
-      setInput('');
-    }
-  }, [context?.states.editMode.editMode.status]);
 
   return (
     <form onSubmit={handleFormSubmit} className={styles.form}>
       <TodoInput input={input} action={handleInputChange} />
 
-      {context?.states.errorState.error && (
+      {error && (
         <small className={styles.error}>
-          {context.states.errorState.error}
+          {error}
         </small>
       )}
 
@@ -103,4 +77,3 @@ const Form: React.FC = (): JSX.Element => {
   );
 };
 
-export default Form;

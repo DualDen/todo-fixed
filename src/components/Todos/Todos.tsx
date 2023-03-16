@@ -2,8 +2,8 @@ import moment from 'moment';
 
 import styles from './Todos.module.css';
 
-import Form from './Form/Form';
-import TodoList from './TodosList/TodoList';
+import {Form} from './Form/Form';
+import {TodoList} from './TodosList/TodoList';
 
 const Todos: React.FC = (): JSX.Element => {
   return (

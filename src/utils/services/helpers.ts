@@ -1,16 +1,15 @@
-import { TodoInterface } from 'utils/constants/types';
+import {ITodo} from 'utils/constants/types';
 
 // Local Storage
-export const setLocalStorage = (key: string, value: TodoInterface[] | null) => {
+export const setLocalStorage = (key: string, value: ITodo[]) => {
   const toJSON = JSON.stringify(value);
   return localStorage.setItem(key, toJSON);
 };
 
-export const getLocalStorage = (key: string): TodoInterface[] | null => {
+export const getLocalStorage = (key: string): ITodo[] | null => {
   const dataset = localStorage.getItem(key);
-  if (typeof dataset === 'string') {
-    const toJS = JSON.parse(dataset);
-    return toJS;
+  if (dataset) {
+    return JSON.parse(dataset);
   }
   return null;
 };
